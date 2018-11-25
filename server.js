@@ -1,5 +1,9 @@
+let config = require('config');
+var colors = require('colors');
+let serverConfig = config.get("serverConfig");
 let http = require('http');
 let app = require('./app');
-let port = 3000;
+let port = serverConfig.port;
 let server = http.createServer(app);
-server.listen(port, () => console.log(`Time Tracker Tool - Backend listening on port ${port}!`));
+console.log(config.get("env").green.bold+' enviroment is runnig !'.green);
+server.listen(port, () => console.log(`Time Tracker Tool - Backend listening on port ${port}!`.green.bold));

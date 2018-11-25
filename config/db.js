@@ -1,15 +1,16 @@
-require('dotenv').load();
+let config = require('config');
+let dbConfig = config.get("dbConfig");
 const mongoose = require('mongoose');
 let connection=mongoose.connect(
-    'mongodb://ajanimed:'+process.env.MONGO_ATLAS_PW+'@cluster0-shard-00-00-djkiw.mongodb.net:27017,cluster0-shard-00-01-djkiw.mongodb.net:27017,cluster0-shard-00-02-djkiw.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true',
+    dbConfig.connectString,
     {
         useNewUrlParser: true
     },
     function(err){
-        if(err){console.log("error from the database "+err);
+        if(err){console.log("error from the database ".red.bold+err);
         }
         else{
-            console.log("connected to the database")
+            console.log("connected to the database".green.bold);
         }
     }
      );
