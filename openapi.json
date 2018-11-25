@@ -1,0 +1,452 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Time Tracker Tool",
+    "description" : "# Introduction\nThis API defines how the employees tracking infos will be exchanged between the diffrent client sides (web dashboard & desktop app)\n# Authentication\nThis API must implement bearer/token authentication. The bearer tokens will be in JWT (JSON Web Token) format.\n",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/ajanimed/time-tracker-tool/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  }, {
+    "url" : "localhost:3000/",
+    "description" : "Dev Server"
+  } ],
+  "tags" : [ {
+    "name" : "Requests",
+    "description" : "All the API Requests (operations of storing and getting data)."
+  }, {
+    "name" : "Subscribes",
+    "description" : "All the API Subscribes (operations that change the stored data)."
+  } ],
+  "paths" : {
+    "/register" : {
+      "post" : {
+        "tags" : [ "Requests" ],
+        "summary" : "add a new user",
+        "description" : "This command will register a new user (Admin,Supervisor or an Employee) accordance to the defined user model and one of user types models (Employee,Supervisor or Administrator).",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful store of the user in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "User" : {
+                      "$ref" : "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error storing data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/screenshot" : {
+      "post" : {
+        "tags" : [ "Requests" ],
+        "summary" : "post a new screenshot.",
+        "description" : "This command will add a new screenshot in the server database in accordance to the defined screenshot data model.",
+        "responses" : {
+          "200" : {
+            "description" : "Successful store of the screenshot in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "Screenshot" : {
+                      "$ref" : "#/components/schemas/Screenshot"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error storing data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "required" : [ "_id", "_v", "created_at", "email", "name", "password", "role", "surname", "tel" ],
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "a mongoose ObjectId",
+            "example" : "5bf01158ee71f52a2cc03a87"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "user name",
+            "example" : "Ajani"
+          },
+          "surname" : {
+            "type" : "string",
+            "description" : "user surname",
+            "example" : "Mohamed"
+          },
+          "tel" : {
+            "type" : "string",
+            "description" : "user phone number",
+            "example" : "+7 980-530-6219"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "user email",
+            "example" : "ajani.med@gmail.com"
+          },
+          "password" : {
+            "type" : "string",
+            "description" : "hashed user password",
+            "example" : "sha1$a0187ac8$1$bede97ca00e74241d6f63e920b1b85c01a00d5c2"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "document creation date",
+            "format" : "date-time"
+          },
+          "_v" : {
+            "type" : "integer",
+            "description" : "document version (mongodb versioning)",
+            "format" : "int32",
+            "example" : 0
+          }
+        },
+        "description" : "This model define all users infos"
+      },
+      "Supervisor" : {
+        "required" : [ "_id", "_v", "created_at", "function", "infos" ],
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "a mongoose ObjectId",
+            "example" : "5bf01158ee71f52a2cc03a87"
+          },
+          "infos" : {
+            "description" : "the supervisor infos (name,surname...)",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/User"
+            } ]
+          },
+          "function" : {
+            "type" : "string",
+            "description" : "Employee function (Quality supervisor)",
+            "example" : "Quality supervisor"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "document creation date",
+            "format" : "date-time"
+          },
+          "_v" : {
+            "type" : "integer",
+            "description" : "document version (mongodb versioning)",
+            "format" : "int32",
+            "example" : 0
+          }
+        },
+        "description" : "This model define additional infos for users (supervisors)"
+      },
+      "Employee" : {
+        "required" : [ "_id", "_v", "created_at", "function", "infos" ],
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "a mongoose ObjectId",
+            "example" : "5bf01158ee71f52a2cc03a87"
+          },
+          "infos" : {
+            "description" : "the employee infos (name,surname...)",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/User"
+            } ]
+          },
+          "function" : {
+            "type" : "string",
+            "description" : "Employee function ( Web developer , Tester...",
+            "example" : "Web developer"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "document creation date",
+            "format" : "date-time"
+          },
+          "_v" : {
+            "type" : "integer",
+            "description" : "document version (mongodb versioning)",
+            "format" : "int32",
+            "example" : 0
+          }
+        },
+        "description" : "This model define additional infos for users (employees)"
+      },
+      "TaskCategory" : {
+        "required" : [ "_id", "_v", "created_at", "name" ],
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "a mongoose ObjectId",
+            "example" : "5bf01158ee71f52a2cc03a87"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "the task category",
+            "example" : "Testing Category"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "document creation date",
+            "format" : "date-time"
+          },
+          "_v" : {
+            "type" : "integer",
+            "description" : "document version (mongodb versioning)",
+            "format" : "int32",
+            "example" : 0
+          }
+        },
+        "description" : "This model define the task category"
+      },
+      "Task" : {
+        "required" : [ "_id", "_v", "created_at", "description", "employee", "name", "statut", "supervisor" ],
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "a mongoose ObjectId",
+            "example" : "5bf01158ee71f52a2cc03a87"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "task name",
+            "example" : "Testing"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "task description",
+            "example" : "You will test the authentification module"
+          },
+          "category" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/TaskCategory"
+            } ]
+          },
+          "supervisor" : {
+            "description" : "the task supervisor",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Supervisor"
+            } ]
+          },
+          "employee" : {
+            "description" : "the owner of the task (one employee)",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Employee"
+            } ]
+          },
+          "statut" : {
+            "type" : "string",
+            "description" : "task statut (Open,Closed,Finished...)",
+            "example" : "Open"
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "document creation date",
+            "format" : "date-time"
+          },
+          "_v" : {
+            "type" : "integer",
+            "description" : "document version (mongodb versioning)",
+            "format" : "int32",
+            "example" : 0
+          }
+        },
+        "description" : "This model define tasks"
+      },
+      "Screenshot" : {
+        "required" : [ "_id", "_v", "created_at", "name", "task" ],
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "a mongoose ObjectId",
+            "example" : "5bf01158ee71f52a2cc03a87"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "the scrrenshot file title",
+            "example" : "screenshot_title.jpg"
+          },
+          "task" : {
+            "description" : "screenshot's task",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Task"
+            } ]
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "document creation date",
+            "format" : "date-time"
+          },
+          "_v" : {
+            "type" : "integer",
+            "description" : "document version (mongodb versioning)",
+            "format" : "int32",
+            "example" : 0
+          }
+        }
+      },
+      "TimeLog" : {
+        "required" : [ "_id", "_v", "created_at", "name", "task" ],
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string",
+            "description" : "a mongoose ObjectId",
+            "example" : "5bf01158ee71f52a2cc03a87"
+          },
+          "task" : {
+            "description" : "screenshot's task",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Task"
+            } ]
+          },
+          "created_at" : {
+            "type" : "string",
+            "description" : "document creation date",
+            "format" : "date-time"
+          },
+          "_v" : {
+            "type" : "integer",
+            "description" : "document version (mongodb versioning)",
+            "format" : "int32",
+            "example" : 0
+          }
+        }
+      },
+      "Success" : {
+        "required" : [ "code", "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "a simple server response description",
+            "example" : "sccess message"
+          },
+          "code" : {
+            "type" : "string",
+            "example" : "success code response 200"
+          }
+        },
+        "description" : "This model define all success response messages"
+      },
+      "Error" : {
+        "required" : [ "code", "message" ],
+        "type" : "object",
+        "properties" : {
+          "message" : {
+            "type" : "string",
+            "description" : "a simple server response description",
+            "example" : "error message"
+          },
+          "code" : {
+            "type" : "string",
+            "description" : "http response error code",
+            "example" : "error code response"
+          },
+          "internalServerError" : {
+            "type" : "string",
+            "description" : "an intern exception throwed by one intern module",
+            "example" : "a mongodb exception"
+          }
+        },
+        "description" : "This model define all error response messages"
+      },
+      "body" : {
+        "required" : [ "email", "name", "password", "surname", "tel", "userRole" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "the user name",
+            "example" : "Ajani"
+          },
+          "surname" : {
+            "type" : "string",
+            "description" : "user surname",
+            "example" : "Mohamed"
+          },
+          "tel" : {
+            "type" : "string",
+            "description" : "user phone number",
+            "example" : "+7 980-530-6219"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "user email",
+            "example" : "ajani.med@gmail.com"
+          },
+          "password" : {
+            "type" : "string",
+            "description" : "no-hashed user password",
+            "example" : "My-password$123"
+          },
+          "userRole" : {
+            "type" : "string",
+            "description" : "the user role",
+            "example" : "Supervisor"
+          }
+        }
+      }
+    }
+  }
+}
