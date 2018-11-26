@@ -10,7 +10,10 @@
     "description" : "SwaggerHub API Auto Mocking"
   }, {
     "url" : "localhost:3000/",
-    "description" : "Dev Server"
+    "description" : "Development Server"
+  } ],
+  "security" : [ {
+    "bearerAuth" : [ ]
   } ],
   "tags" : [ {
     "name" : "Requests",
@@ -20,16 +23,71 @@
     "description" : "All the API Subscribes (operations that change the stored data)."
   } ],
   "paths" : {
-    "/register" : {
+    "/login" : {
       "post" : {
         "tags" : [ "Requests" ],
-        "summary" : "add a new user",
-        "description" : "This command will register a new user (Admin,Supervisor or an Employee) accordance to the defined user model and one of user types models (Employee,Supervisor or Administrator).",
+        "summary" : "login to the api",
+        "description" : "This command will authentifate users and gave them an authentification token to access to the proctected routes.",
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful user authentification.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "token" : {
+                      "type" : "string",
+                      "description" : "user access token",
+                      "example" : "token"
+                    },
+                    "User" : {
+                      "$ref" : "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error storing data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/register" : {
+      "post" : {
+        "tags" : [ "Requests" ],
+        "summary" : "add a new user",
+        "description" : "This command will register a new user  accordance to the defined user model.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_1"
               }
             }
           },
@@ -70,6 +128,487 @@
         }
       }
     },
+    "/users" : {
+      "get" : {
+        "tags" : [ "Requests" ],
+        "summary" : "get users",
+        "description" : "This command will return users",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "pages number",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 2
+        }, {
+          "name" : "number",
+          "in" : "query",
+          "description" : "the number of returned elements",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 20
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "Users" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/components/schemas/User"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/user/{id}" : {
+      "get" : {
+        "tags" : [ "Requests" ],
+        "summary" : "get one user by id",
+        "description" : "This command will return one user",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "user id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "User" : {
+                      "$ref" : "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/supervisor/add" : {
+      "post" : {
+        "tags" : [ "Requests" ],
+        "summary" : "add a new supervisor",
+        "description" : "This command will register a new supervisor according to the supervisor model",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_2"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful store of the supervisor in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "Supervisor" : {
+                      "$ref" : "#/components/schemas/Supervisor"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error storing data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/supervisors" : {
+      "get" : {
+        "tags" : [ "Requests" ],
+        "summary" : "get supervisors",
+        "description" : "This command will return supervisors",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "pages number",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 2
+        }, {
+          "name" : "number",
+          "in" : "query",
+          "description" : "the number of returned elements",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 20
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "Supervisors" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/components/schemas/Supervisor"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/supervisor/{id}" : {
+      "get" : {
+        "tags" : [ "Requests" ],
+        "summary" : "get one supervisor by id",
+        "description" : "This command will return one supervisor",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "supervisor id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Supervisor" : {
+                      "$ref" : "#/components/schemas/Supervisor"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/employee/add" : {
+      "post" : {
+        "tags" : [ "Requests" ],
+        "summary" : "add a new employee",
+        "description" : "This command will register a new employee according to the employee model",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_3"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful store of the employee in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "Employee" : {
+                      "$ref" : "#/components/schemas/Employee"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error storing data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/employees" : {
+      "get" : {
+        "tags" : [ "Requests" ],
+        "summary" : "get employees",
+        "description" : "This command will return employees",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "pages number",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 2
+        }, {
+          "name" : "number",
+          "in" : "query",
+          "description" : "the number of returned elements",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 20
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "Employees" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/components/schemas/Employee"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/employee/{id}" : {
+      "get" : {
+        "tags" : [ "Requests" ],
+        "summary" : "get one employee by id",
+        "description" : "This command will return one employee",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "supervisor id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Employee" : {
+                      "$ref" : "#/components/schemas/Employee"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
     "/screenshot" : {
       "post" : {
         "tags" : [ "Requests" ],
@@ -107,7 +646,10 @@
               }
             }
           }
-        }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
       }
     }
   },
@@ -168,12 +710,13 @@
           "_id" : {
             "type" : "string",
             "description" : "a mongoose ObjectId",
-            "example" : "5bf01158ee71f52a2cc03a87"
+            "example" : "3ef0555fe54f52a2cc03a87"
           },
           "infos" : {
-            "description" : "the supervisor infos (name,surname...)",
+            "description" : "the user id",
+            "example" : "5bf01158ee71f52a2cc03a87",
             "oneOf" : [ {
-              "$ref" : "#/components/schemas/User"
+              "$ref" : "#/components/schemas/User/properties/_id"
             } ]
           },
           "function" : {
@@ -202,12 +745,13 @@
           "_id" : {
             "type" : "string",
             "description" : "a mongoose ObjectId",
-            "example" : "5bf01158ee71f52a2cc03a87"
+            "example" : "7agff58ee71f5525aa03a87"
           },
-          "infos" : {
-            "description" : "the employee infos (name,surname...)",
+          "idUser" : {
+            "description" : "the user id",
+            "example" : "5bf01158ee71f52a2cc03a87",
             "oneOf" : [ {
-              "$ref" : "#/components/schemas/User"
+              "$ref" : "#/components/schemas/User/properties/_id"
             } ]
           },
           "function" : {
@@ -412,6 +956,22 @@
         "description" : "This model define all error response messages"
       },
       "body" : {
+        "required" : [ "email", "password" ],
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "description" : "the user email",
+            "example" : "ajani.med@gmail.com"
+          },
+          "password" : {
+            "type" : "string",
+            "description" : "no-hashed user password",
+            "example" : "My-password-1234"
+          }
+        }
+      },
+      "body_1" : {
         "required" : [ "email", "name", "password", "surname", "tel", "userRole" ],
         "type" : "object",
         "properties" : {
@@ -439,13 +999,67 @@
             "type" : "string",
             "description" : "no-hashed user password",
             "example" : "My-password$123"
-          },
-          "userRole" : {
-            "type" : "string",
-            "description" : "the user role",
-            "example" : "Supervisor"
           }
         }
+      },
+      "supervisoradd_supervisor" : {
+        "type" : "object",
+        "properties" : {
+          "function" : {
+            "type" : "string",
+            "description" : "the supervisor function",
+            "example" : "project chief"
+          }
+        }
+      },
+      "body_2" : {
+        "required" : [ "idUser", "supervisor" ],
+        "type" : "object",
+        "properties" : {
+          "idUser" : {
+            "description" : "user id",
+            "example" : "5bf01158ee71f52a2cc03a87",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/User/properties/_id"
+            } ]
+          },
+          "supervisor" : {
+            "$ref" : "#/components/schemas/supervisoradd_supervisor"
+          }
+        }
+      },
+      "employeeadd_employee" : {
+        "type" : "object",
+        "properties" : {
+          "function" : {
+            "type" : "string",
+            "description" : "the supervisor function",
+            "example" : "web developer"
+          }
+        }
+      },
+      "body_3" : {
+        "required" : [ "employee", "idUser" ],
+        "type" : "object",
+        "properties" : {
+          "idUser" : {
+            "description" : "user id",
+            "example" : "5bf01158ee71f52a2cc03a87",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/User/properties/_id"
+            } ]
+          },
+          "employee" : {
+            "$ref" : "#/components/schemas/employeeadd_employee"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
       }
     }
   }
