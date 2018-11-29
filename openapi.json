@@ -16,16 +16,34 @@
     "bearerAuth" : [ ]
   } ],
   "tags" : [ {
-    "name" : "Requests",
-    "description" : "All the API Requests (operations of storing and getting data)."
+    "name" : "Authentification",
+    "description" : "Authentification operations."
   }, {
-    "name" : "Subscribes",
-    "description" : "All the API Subscribes (operations that change the stored data)."
+    "name" : "User routes",
+    "description" : "All user available operations."
+  }, {
+    "name" : "Supervisor routes",
+    "description" : "All supervisor available operations."
+  }, {
+    "name" : "Employee routes",
+    "description" : "All employee available operations."
+  }, {
+    "name" : "TaskCategory routes",
+    "description" : "All taskcategory available operations."
+  }, {
+    "name" : "Task routes",
+    "description" : "All task available operations."
+  }, {
+    "name" : "Screenshot routes",
+    "description" : "All screenshot available operations."
+  }, {
+    "name" : "TimeLog routes",
+    "description" : "All timelog available operations."
   } ],
   "paths" : {
     "/login" : {
       "post" : {
-        "tags" : [ "Requests" ],
+        "tags" : [ "Authentification" ],
         "summary" : "login to the api",
         "description" : "This command will authentifate users and gave them an authentification token to access to the proctected routes.",
         "requestBody" : {
@@ -80,7 +98,7 @@
     },
     "/register" : {
       "post" : {
-        "tags" : [ "Requests" ],
+        "tags" : [ "Authentification" ],
         "summary" : "add a new user",
         "description" : "This command will register a new user  accordance to the defined user model.",
         "requestBody" : {
@@ -100,9 +118,6 @@
               "application/json" : {
                 "schema" : {
                   "properties" : {
-                    "SuccessResponse" : {
-                      "$ref" : "#/components/schemas/Success"
-                    },
                     "User" : {
                       "$ref" : "#/components/schemas/User"
                     }
@@ -130,7 +145,7 @@
     },
     "/users" : {
       "get" : {
-        "tags" : [ "Requests" ],
+        "tags" : [ "User routes" ],
         "summary" : "get users",
         "description" : "This command will return users",
         "parameters" : [ {
@@ -203,7 +218,7 @@
     },
     "/user/{id}" : {
       "get" : {
-        "tags" : [ "Requests" ],
+        "tags" : [ "User routes" ],
         "summary" : "get one user by id",
         "description" : "This command will return one user",
         "parameters" : [ {
@@ -253,11 +268,23 @@
         } ]
       }
     },
-    "/supervisor/add" : {
-      "post" : {
-        "tags" : [ "Requests" ],
-        "summary" : "add a new supervisor",
-        "description" : "This command will register a new supervisor according to the supervisor model",
+    "/user/update/{id}" : {
+      "put" : {
+        "tags" : [ "User routes" ],
+        "summary" : "update an existing user",
+        "description" : "This command will update an existing user",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "user id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
         "requestBody" : {
           "content" : {
             "application/json" : {
@@ -270,14 +297,113 @@
         },
         "responses" : {
           "200" : {
-            "description" : "Successful store of the supervisor in the database.",
+            "description" : "Successful update of the user in the database.",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "properties" : {
                     "SuccessResponse" : {
                       "$ref" : "#/components/schemas/Success"
-                    },
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error updating data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/user/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "User routes" ],
+        "summary" : "delete one user",
+        "description" : "This command will delete one user by id from the database.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "user id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful delete of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Success" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Operation failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/supervisor/add" : {
+      "post" : {
+        "tags" : [ "Supervisor routes" ],
+        "summary" : "add a new supervisor",
+        "description" : "This command will register a new supervisor according to the supervisor model",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_3"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful store of the supervisor in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
                     "Supervisor" : {
                       "$ref" : "#/components/schemas/Supervisor"
                     }
@@ -308,7 +434,7 @@
     },
     "/supervisors" : {
       "get" : {
-        "tags" : [ "Requests" ],
+        "tags" : [ "Supervisor routes" ],
         "summary" : "get supervisors",
         "description" : "This command will return supervisors",
         "parameters" : [ {
@@ -381,7 +507,7 @@
     },
     "/supervisor/{id}" : {
       "get" : {
-        "tags" : [ "Requests" ],
+        "tags" : [ "Supervisor routes" ],
         "summary" : "get one supervisor by id",
         "description" : "This command will return one supervisor",
         "parameters" : [ {
@@ -431,16 +557,130 @@
         } ]
       }
     },
+    "/supervisor/update/{id}" : {
+      "put" : {
+        "tags" : [ "Supervisor routes" ],
+        "summary" : "update an existing supervisor",
+        "description" : "This command will update an existing supervisor",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "supervisor id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_4"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful update of the supervisor in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error updating data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/supervisor/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "Supervisor routes" ],
+        "summary" : "delete one supervisor",
+        "description" : "This command will delete one supervisor by id from the database.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "supervisor id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful delete of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Success" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Operation failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
     "/employee/add" : {
       "post" : {
-        "tags" : [ "Requests" ],
+        "tags" : [ "Employee routes" ],
         "summary" : "add a new employee",
         "description" : "This command will register a new employee according to the employee model",
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_3"
+                "$ref" : "#/components/schemas/body_5"
               }
             }
           },
@@ -486,7 +726,7 @@
     },
     "/employees" : {
       "get" : {
-        "tags" : [ "Requests" ],
+        "tags" : [ "Employee routes" ],
         "summary" : "get employees",
         "description" : "This command will return employees",
         "parameters" : [ {
@@ -559,13 +799,13 @@
     },
     "/employee/{id}" : {
       "get" : {
-        "tags" : [ "Requests" ],
+        "tags" : [ "Employee routes" ],
         "summary" : "get one employee by id",
         "description" : "This command will return one employee",
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
-          "description" : "supervisor id",
+          "description" : "employee id",
           "required" : true,
           "style" : "simple",
           "explode" : false,
@@ -609,14 +849,205 @@
         } ]
       }
     },
-    "/screenshot" : {
-      "post" : {
-        "tags" : [ "Requests" ],
-        "summary" : "post a new screenshot.",
-        "description" : "This command will add a new screenshot in the server database in accordance to the defined screenshot data model.",
+    "/employee/update/{id}" : {
+      "put" : {
+        "tags" : [ "Employee routes" ],
+        "summary" : "update an existing employee",
+        "description" : "This command will update an existing employee",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "employee id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_6"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
           "200" : {
-            "description" : "Successful store of the screenshot in the database.",
+            "description" : "Successful update of the employee in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error updating data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/employee/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "Employee routes" ],
+        "summary" : "delete one employee",
+        "description" : "This command will delete one employee by id from the database.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "employee id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful delete of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Success" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Operation failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/task-category/add" : {
+      "post" : {
+        "tags" : [ "TaskCategory routes" ],
+        "summary" : "post a new task category",
+        "description" : "This command will add a new task category in the server database in accordance to the defined taskCategory model.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_7"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful store of the task category in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "TaskCategory" : {
+                      "$ref" : "#/components/schemas/TaskCategory"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error storing data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/task-categories" : {
+      "get" : {
+        "tags" : [ "TaskCategory routes" ],
+        "summary" : "get task categories",
+        "description" : "This command will return task categories",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "pages number",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 2
+        }, {
+          "name" : "number",
+          "in" : "query",
+          "description" : "the number of returned elements",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 20
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -624,6 +1055,514 @@
                     "SuccessResponse" : {
                       "$ref" : "#/components/schemas/Success"
                     },
+                    "TaskCategories" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/components/schemas/TaskCategory"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/task-category/{id}" : {
+      "get" : {
+        "tags" : [ "TaskCategory routes" ],
+        "summary" : "get one task category by id",
+        "description" : "This command will return one task category",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "task category id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "TaskCategory" : {
+                      "$ref" : "#/components/schemas/TaskCategory"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/task-category/update/{id}" : {
+      "put" : {
+        "tags" : [ "TaskCategory routes" ],
+        "summary" : "update an existing task category",
+        "description" : "This command will update an existing task category",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "task category id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_8"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful update of the task category in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error updating data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/task-category/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "TaskCategory routes" ],
+        "summary" : "delete one task category",
+        "description" : "This command will delete one task category by id from the database.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "task category id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful delete of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Success" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Operation failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/task/add" : {
+      "post" : {
+        "tags" : [ "Task routes" ],
+        "summary" : "post a new task",
+        "description" : "This command will add a new task  in the server database in accordance to the defined Category model.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_9"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful store of the task in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Task" : {
+                      "$ref" : "#/components/schemas/Task"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error storing data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/tasks" : {
+      "get" : {
+        "tags" : [ "Task routes" ],
+        "summary" : "get tasks",
+        "description" : "This command will return tasks",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "pages number",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 2
+        }, {
+          "name" : "number",
+          "in" : "query",
+          "description" : "the number of returned elements",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 20
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "Tasks" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/components/schemas/Task"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/task/{id}" : {
+      "get" : {
+        "tags" : [ "Task routes" ],
+        "summary" : "get one task by id",
+        "description" : "This command will return one task",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "task id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Task" : {
+                      "$ref" : "#/components/schemas/Task"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/task/update/{id}" : {
+      "put" : {
+        "tags" : [ "Task routes" ],
+        "summary" : "update an existing task",
+        "description" : "This command will update an existing task",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "task id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_10"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful update of the task in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error updating data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/task/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "Task routes" ],
+        "summary" : "delete one task",
+        "description" : "This command will delete one task by id from the database.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "task id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Success" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Operation failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/screenshot/add" : {
+      "post" : {
+        "tags" : [ "Screenshot routes" ],
+        "summary" : "post a new screenshot.",
+        "description" : "This command will add a new screenshot in the server database in accordance to the defined screenshot data model.",
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_11"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful store of the screenshot in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
                     "Screenshot" : {
                       "$ref" : "#/components/schemas/Screenshot"
                     }
@@ -634,6 +1573,530 @@
           },
           "401" : {
             "description" : "Error storing data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/screenshots" : {
+      "get" : {
+        "tags" : [ "Screenshot routes" ],
+        "summary" : "get screenshots",
+        "description" : "This command will return screenshots",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "pages number",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 2
+        }, {
+          "name" : "number",
+          "in" : "query",
+          "description" : "the number of returned elements",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 20
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "Screenshots" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/components/schemas/Screenshot"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/screenshot/{id}" : {
+      "get" : {
+        "tags" : [ "Screenshot routes" ],
+        "summary" : "get one screenshot by id",
+        "description" : "This command will return one screenshot",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "screenshot id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Screenshot" : {
+                      "$ref" : "#/components/schemas/Screenshot"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/screenshots/{idTask}" : {
+      "get" : {
+        "tags" : [ "Screenshot routes" ],
+        "summary" : "get one screenshots by task id",
+        "description" : "This command will return screenshots by task id",
+        "parameters" : [ {
+          "name" : "idTask",
+          "in" : "path",
+          "description" : "task id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Screenshots" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/components/schemas/Screenshot"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/screenshot/update/{id}" : {
+      "put" : {
+        "tags" : [ "Screenshot routes" ],
+        "summary" : "update an existing screenshot",
+        "description" : "This command will update an existing screenshot",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "screenshot id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "multipart/form-data" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_12"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful update of the screenshot in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error updating data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/screenshot/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "Screenshot routes" ],
+        "summary" : "delete one screenshot",
+        "description" : "This command will delete one screenshot by id from the database.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "screenshot id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful delete of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Success" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Operation failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/timelog/add" : {
+      "post" : {
+        "tags" : [ "TimeLog routes" ],
+        "summary" : "post a new timelog.",
+        "description" : "This command will add a new timelog in the server database in accordance to the defined timelog data model.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_13"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful store of the timelog in the database.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Timelog" : {
+                      "$ref" : "#/components/schemas/TimeLog"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error storing data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/timelogs" : {
+      "get" : {
+        "tags" : [ "TimeLog routes" ],
+        "summary" : "get Timelogs",
+        "description" : "This command will return timelogs",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "pages number",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 2
+        }, {
+          "name" : "number",
+          "in" : "query",
+          "description" : "the number of returned elements",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "example" : 20
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "SuccessResponse" : {
+                      "$ref" : "#/components/schemas/Success"
+                    },
+                    "Timelogs" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/components/schemas/TimeLog"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/timelog/{idTask}" : {
+      "get" : {
+        "tags" : [ "TimeLog routes" ],
+        "summary" : "get one timelog by task id",
+        "description" : "This command will return one timelog",
+        "parameters" : [ {
+          "name" : "idTask",
+          "in" : "path",
+          "description" : "task id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful fetch of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "TimeLogs" : {
+                      "type" : "array",
+                      "items" : {
+                        "$ref" : "#/components/schemas/TimeLog"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Error fetching data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "UnexpectedError" : {
+                      "$ref" : "#/components/schemas/Error"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "bearerAuth" : [ ]
+        } ]
+      }
+    },
+    "/timelog/delete/{id}" : {
+      "delete" : {
+        "tags" : [ "TimeLog routes" ],
+        "summary" : "delete one timelog",
+        "description" : "This command will delete one timelog by id from the database.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "timelog id",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful delete of data.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "properties" : {
+                    "Success" : {
+                      "$ref" : "#/components/schemas/Success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Operation failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -780,7 +2243,7 @@
           "_id" : {
             "type" : "string",
             "description" : "a mongoose ObjectId",
-            "example" : "5bf01158ee71f52a2cc03a87"
+            "example" : "4ch014858fe81f51b5c0ff87"
           },
           "name" : {
             "type" : "string",
@@ -808,7 +2271,7 @@
           "_id" : {
             "type" : "string",
             "description" : "a mongoose ObjectId",
-            "example" : "5bf01158ee71f52a2cc03a87"
+            "example" : "2cf05188ff71e42a2ca436c7"
           },
           "name" : {
             "type" : "string",
@@ -872,6 +2335,7 @@
           },
           "task" : {
             "description" : "screenshot's task",
+            "example" : "2cf05188ff71e42a2ca436c7",
             "oneOf" : [ {
               "$ref" : "#/components/schemas/Task"
             } ]
@@ -1002,6 +2466,36 @@
           }
         }
       },
+      "body_2" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "the user name",
+            "example" : "Ajani"
+          },
+          "surname" : {
+            "type" : "string",
+            "description" : "user surname",
+            "example" : "Mohamed"
+          },
+          "tel" : {
+            "type" : "string",
+            "description" : "user phone number",
+            "example" : "+7 980-530-6219"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "user email",
+            "example" : "ajani.med@gmail.com"
+          },
+          "password" : {
+            "type" : "string",
+            "description" : "no-hashed user password",
+            "example" : "My-password$123"
+          }
+        }
+      },
       "supervisoradd_supervisor" : {
         "type" : "object",
         "properties" : {
@@ -1012,8 +2506,23 @@
           }
         }
       },
-      "body_2" : {
+      "body_3" : {
         "required" : [ "idUser", "supervisor" ],
+        "type" : "object",
+        "properties" : {
+          "idUser" : {
+            "description" : "user id",
+            "example" : "5bf01158ee71f52a2cc03a87",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/User/properties/_id"
+            } ]
+          },
+          "supervisor" : {
+            "$ref" : "#/components/schemas/supervisoradd_supervisor"
+          }
+        }
+      },
+      "body_4" : {
         "type" : "object",
         "properties" : {
           "idUser" : {
@@ -1038,7 +2547,7 @@
           }
         }
       },
-      "body_3" : {
+      "body_5" : {
         "required" : [ "employee", "idUser" ],
         "type" : "object",
         "properties" : {
@@ -1051,6 +2560,161 @@
           },
           "employee" : {
             "$ref" : "#/components/schemas/employeeadd_employee"
+          }
+        }
+      },
+      "body_6" : {
+        "type" : "object",
+        "properties" : {
+          "idUser" : {
+            "description" : "user id",
+            "example" : "5bf01158ee71f52a2cc03a87",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/User/properties/_id"
+            } ]
+          },
+          "employee" : {
+            "$ref" : "#/components/schemas/employeeadd_employee"
+          }
+        }
+      },
+      "body_7" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "the task category name",
+            "example" : "Testing"
+          }
+        }
+      },
+      "body_8" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "the task category name",
+            "example" : "Testing"
+          }
+        }
+      },
+      "body_9" : {
+        "required" : [ "category", "description", "employee", "name", "statut", "supervisor" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "the task name",
+            "example" : "test"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "the task description",
+            "example" : "test of the authentification module"
+          },
+          "taskCategory" : {
+            "description" : "the task category",
+            "example" : "4ch014858fe81f51b5c0ff87",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/TaskCategory/properties/_id"
+            } ]
+          },
+          "supervisor" : {
+            "description" : "supervisor id",
+            "example" : "3ef0555fe54f52a2cc03a87",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Supervisor/properties/_id"
+            } ]
+          },
+          "employee" : {
+            "description" : "employee id",
+            "example" : "7agff58ee71f5525aa03a87",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Employee/properties/_id"
+            } ]
+          },
+          "statut" : {
+            "type" : "string",
+            "description" : "the task statut",
+            "example" : "Finished"
+          }
+        }
+      },
+      "body_10" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "the task name",
+            "example" : "test"
+          },
+          "description" : {
+            "type" : "string",
+            "description" : "the task description",
+            "example" : "test of the authentification module"
+          },
+          "taskCategory" : {
+            "description" : "the task category",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/TaskCategory/properties/_id"
+            } ]
+          },
+          "supervisor" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Supervisor/properties/_id"
+            } ]
+          },
+          "employee" : {
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Employee/properties/_id"
+            } ]
+          },
+          "statut" : {
+            "type" : "string",
+            "description" : "the task statut",
+            "example" : "Finished"
+          }
+        }
+      },
+      "body_11" : {
+        "required" : [ "name", "task" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "the screenshot name",
+            "example" : "screenshot1.jpg"
+          },
+          "task" : {
+            "description" : "task id",
+            "example" : "2cf05188ff71e42a2ca436c7",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Task/properties/_id"
+            } ]
+          }
+        }
+      },
+      "body_12" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "the screenshot name",
+            "example" : "screenshot1.jpg"
+          }
+        }
+      },
+      "body_13" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "task" : {
+            "description" : "task id",
+            "example" : "2cf05188ff71e42a2ca436c7",
+            "oneOf" : [ {
+              "$ref" : "#/components/schemas/Task/properties/_id"
+            } ]
           }
         }
       }
