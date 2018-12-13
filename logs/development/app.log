@@ -1,0 +1,2 @@
+{"message":"::1 - - [13/Dec/2018:13:25:09 +0000] \"GET /employee/5c123a2750a7490a0c87c1e2 HTTP/1.1\" 200 314 \"-\" \"PostmanRuntime/7.4.0\"\n","level":"info"}
+{"message":"::1 - - [13/Dec/2018:13:25:20 +0000] \"GET /employee/5c123a2750a7490a0c87c1e2 HTTP/1.1\" 200 314 \"-\" \"PostmanRuntime/7.4.0\"\n","level":"info"}

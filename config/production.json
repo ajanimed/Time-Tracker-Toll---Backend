@@ -7,4 +7,6 @@
     "host": "localhost",
     "port": 4000
   }
+  "uploadDestination": "./screenshots",
+  "logDirectory": "./logs/production/app.log"
 }
