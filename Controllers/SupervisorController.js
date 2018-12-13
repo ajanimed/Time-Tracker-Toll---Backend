@@ -1,4 +1,3 @@
-let mongoose = require('mongoose');
 let Supervisor = require("../Models/Supervisor");
 let Success = require("../Models/Success");
 let Error = require("../Models/Error");
@@ -40,7 +39,7 @@ exports.updateById = function (req,res){
         })
 }
 
-//delete a supervisor
+//delete a supervisor by id
 exports.delete = function (req,res){
     Supervisor.findOne({_id: req.params.id}, function (err, supervisor) {
         if (err) {

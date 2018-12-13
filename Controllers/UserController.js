@@ -6,7 +6,7 @@ let Success = require("../Models/Success");
 let Error = require("../Models/Error");
 let passwordHash = require('password-hash');
 
-let role;
+
 //register one user
 exports.register = function (req, res) {
     let hashedPassword = passwordHash.generate(req.body.password);

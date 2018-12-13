@@ -14,7 +14,7 @@ exports.list = function (req,res){
         }
     });
 }
-//find a screenshot to the database by id
+//find a screenshot by id
 exports.findById = function (req,res){
     Screenshot.findOne({_id: req.params.id})
         .populate('task')
@@ -39,7 +39,7 @@ exports.findByTask = function (req,res){
     });
 }
 
-//upload a screenshot to the database
+//upload a screenshot to the server
 exports.upload = function (req,res){
     let screenshot = new Screenshot({
         _id: mongoose.Types.ObjectId(),
@@ -59,7 +59,7 @@ exports.upload = function (req,res){
 
 
 
-//update a screenshot
+//update a screenshot by id
 exports.updateById = function (req,res){
     Screenshot.updateOne({_id: req.params.id}, req.body)
         .exec()

@@ -1,4 +1,3 @@
-let mongoose = require('mongoose');
 let Employee = require("../Models/Employee");
 let Success = require("../Models/Success");
 let Error = require("../Models/Error");
@@ -15,7 +14,7 @@ exports.list = function (req,res){
     });
 }
 
-//find an employee in the database by id
+//find an employee by id
 exports.findById = function (req,res){
     Employee.findOne({_id: req.params.id})
         .populate('user')

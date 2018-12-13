@@ -15,7 +15,7 @@ exports.list = function (req,res){
     });
 }
 
-//add an task category to the database
+//add a task category to the database
 exports.add = function (req,res){
     let taskcategory = new TaskCategory({
         _id: mongoose.Types.ObjectId(),
@@ -31,7 +31,7 @@ exports.add = function (req,res){
     );
 }
 
-//find an task category to the database by id
+//find a task category by id
 exports.findById = function (req,res){
     TaskCategory.findOne({_id: req.params.id})
         .populate('user')
@@ -56,7 +56,7 @@ exports.updateById = function (req,res){
         })
 }
 
-//delete a taskcategory
+//delete a task category
 exports.delete = function (req,res){
     TaskCategory.deleteOne({_id: req.params.id})
         .exec()

@@ -36,7 +36,7 @@ exports.add = function (req,res){
     );
 }
 
-//find a task to the database by id
+//find a task by id
 exports.findById = function (req,res){
     Task.findOne({_id: req.params.id})
         .populate(['category','supervisor','employee'])
@@ -49,7 +49,7 @@ exports.findById = function (req,res){
         })
 }
 
-//update a task
+//update a task by id
 exports.updateById = function (req,res){
     Task.updateOne({_id: req.params.id}, req.body)
         .exec()
@@ -61,7 +61,7 @@ exports.updateById = function (req,res){
         })
 }
 
-//delete a task
+//delete a task by id
 exports.delete = function (req,res){
     Task.deleteOne({_id: req.params.id})
         .exec()
