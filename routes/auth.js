@@ -1,37 +1,15 @@
 let express = require("express");
 require('dotenv').load();
 let router = new express.Router();
-let mongoose = require("mongoose");
-let User = require("../models/User");
+let UserController = require("../Controllers/UserController");
 let jwt = require('jsonwebtoken');
 let passport = require('passport');
-let passwordHash = require('password-hash');
 require('../Midllewears/passport');
+let Verifmail = require("../Midllewears/verifmail");
 
 
 //registration : add one user to the database
-router.post('/register', (req,res) => {
-    let hashedPassword = passwordHash.generate(req.body.password);
-    let user = new User({
-        _id:mongoose.Types.ObjectId(),
-        name:req.body.name,
-        surname:req.body.surname,
-        tel:req.body.tel,
-        email:req.body.email,
-        password:hashedPassword,
-        role:req.body.role
-    });
-    user.save().
-    then(
-        result =>{
-            res.status(200).json({message:'The user has been added',user:user});
-        }
-    ).
-    catch(err =>{
-            res.status(500).json({message:'Internal Server error',error:err});
-        }
-    );
-});
+router.post('/register',[Verifmail,UserController.register] );
 
 //authentification
 router.post('/login',(req,res) => {
@@ -54,7 +32,5 @@ router.post('/login',(req,res) => {
     })
     (req, res);
 });
-
-
 
 module.exports = router;
