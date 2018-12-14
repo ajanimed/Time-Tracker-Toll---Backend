@@ -82,7 +82,6 @@ exports.register = function (req, res) {
 }
 //change profile photo
 exports.changeProfilePhoto = function (req,res){
-    console.log(req.photoDir);
     User.updateOne({_id:req.params.id},{photo:req.photoDir})
         .exec()
         .then(doc => {
