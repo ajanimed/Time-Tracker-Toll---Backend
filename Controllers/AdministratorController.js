@@ -1,10 +1,10 @@
-let Supervisor = require("../Models/Supervisor");
+let Administrator = require("../Models/Administrator");
 let Success = require("../Models/Success");
 let Error = require("../Models/Error");
 
-//return supervisors documents based on page and limit numbers
+//return administrators documents based on page and limit numbers
 exports.list = function (req,res){
-    Supervisor.paginate({}, {populate:'user',page: req.params.page, limit: parseInt(req.params.number)}, (err, result) => {
+    Administrator.paginate({}, {populate:'user',page: req.params.page, limit: parseInt(req.params.number)}, (err, result) => {
         if (err) {
             res.status(500).json(Error.message(500,'Error fetching data',err));
         }
@@ -14,9 +14,9 @@ exports.list = function (req,res){
     });
 }
 
-//find a supervisor in the database by id
+//find an administrator by id
 exports.findById = function (req,res){
-    Supervisor.findOne({_id: req.params.id})
+    Administrator.findOne({_id: req.params.id})
         .populate('user')
         .exec()
         .then(doc => {
@@ -27,9 +27,9 @@ exports.findById = function (req,res){
         })
 }
 
-//update a supervisor by id
+//update an administrator by id
 exports.updateById = function (req,res){
-    Supervisor.updateOne({_id: req.params.id}, req.body)
+    Administrator.updateOne({_id: req.params.id}, req.body)
         .exec()
         .then(doc => {
             res.status(200).json(doc);
@@ -39,19 +39,19 @@ exports.updateById = function (req,res){
         })
 }
 
-//delete a supervisor by id
+//delete an administrator by id
 exports.delete = function (req,res){
-    Supervisor.findOne({_id: req.params.id}, function (err, supervisor) {
+    Administrator.findOne({_id: req.params.id}, function (err, administrator) {
         if (err) {
-            res.status(500).json(Error.message(500,'Error deleting supervisor',err));
+            res.status(500).json(Error.message(500,'Error deleting administrator',err));
         }
         else{
-            supervisor.remove(function (err) {
+            administrator.remove(function (err) {
                 if(err){
-                    res.status(500).json(Error.message(500,'Error deleting supervisor',err));
+                    res.status(500).json(Error.message(500,'Error deleting administrator',err));
                 }
                 else{
-                    res.status(200).json(Success.message(200,'The supervisor has been deleted'));
+                    res.status(200).json(Success.message(200,'The administrator has been deleted'));
                 }
             });
         }

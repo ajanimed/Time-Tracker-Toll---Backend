@@ -25,6 +25,7 @@ app.use(require('./routes/auth'));
 
 //protected routes
 let userRoute = require('./routes/users');
+let AministratorRoute = require('./routes/administrators');
 let EmployeeRoute = require('./routes/employees');
 let SupervisorRoute = require('./routes/supervisors');
 let TaskCategoryRoute = require('./routes/taskcategories');
@@ -33,6 +34,7 @@ let ScreenShotRoute = require('./routes/screenshots');
 app.use(passport.authenticate('jwt', {session: false}),
     userRoute,
     EmployeeRoute,
+    AministratorRoute,
     SupervisorRoute,
     TaskCategoryRoute,
     TaskRoute,

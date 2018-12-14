@@ -1,5 +1,5 @@
 let config = require('config');
-const fs = require('fs-extra');
+let fs = require('fs-extra');
 
 exports.createTaskScreenshotsUploadingDirectory = function (task) {
     let date = new Date();
@@ -9,6 +9,11 @@ exports.createTaskScreenshotsUploadingDirectory = function (task) {
     let dir = config.get('uploadDestination') + '/' + currentYear + '/' + currentMonth + '/' + currentDay + '/'+task;
     fs.ensureDirSync(dir);
     return dir;
-    next();
+};
+
+exports.createProfilePhotoUploadingDirectory = function(id){
+    let dir = config.get('uploadPhotoProfileDestination') + '/' + id;
+    fs.ensureDirSync(dir);
+    return dir;
 };
 

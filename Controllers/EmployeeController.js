@@ -9,7 +9,7 @@ exports.list = function (req,res){
             res.status(500).json(Error.message(500,'Error fetching data',err));
         }
         else {
-            res.status(200).json(result.docs);
+            res.status(200).json(result);
         }
     });
 }

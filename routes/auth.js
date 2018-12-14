@@ -6,10 +6,10 @@ let jwt = require('jsonwebtoken');
 let passport = require('passport');
 require('../Midllewears/passport');
 let Verifmail = require("../Midllewears/verifmail");
-
+let upload = require("../config/uploadStrategies/profile-photo-upload");
 
 //registration : add one user to the database
-router.post('/register',[Verifmail,UserController.register] );
+router.post('/register',[Verifmail,UserController.register,upload.single('photo')] );
 
 //authentification
 router.post('/login',(req,res) => {

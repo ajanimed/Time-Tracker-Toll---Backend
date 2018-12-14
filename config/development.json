@@ -8,5 +8,6 @@
     "port": 3000
   },
   "uploadDestination": "./screenshots",
+  "uploadPhotoProfileDestination":"./img/profiles-photos",
   "logDirectory": "./logs/development/app.log"
 }

@@ -2,6 +2,7 @@ let mongoose = require('mongoose');
 let User = require("../Models/User");
 let Employee = require("../Models/Employee");
 let Supervisor = require("../Models/Supervisor");
+let Administrator = require("../Models/Administrator");
 let Success = require("../Models/Success");
 let Error = require("../Models/Error");
 let passwordHash = require('password-hash');
@@ -54,6 +55,24 @@ exports.register = function (req, res) {
                         }
                     });
                 }
+                else{
+                    if(req.body.administrator){
+                        let administratorBody = {
+                            _id: mongoose.Types.ObjectId(),
+                            function: req.body.administrator.function,
+                            user:user._id
+                        };
+                        let administrator = new Administrator(administratorBody)
+                        administrator.save((err) => {
+                            if(err){
+                                res.status(500).json(Error.message(500,err));
+                            }
+                            else{
+                                res.status(200).json(Object.assign(Success.message(200,"The user has been added"),{user:user},{administrator:administrator}));
+                            }
+                        });
+                    }
+                }
             }
         }
     ).catch(err => {
@@ -61,7 +80,19 @@ exports.register = function (req, res) {
         }
     );
 }
-
+//change profile photo
+exports.changeProfilePhoto = function (req,res){
+    console.log(req.photoDir);
+    User.updateOne({_id:req.params.id},{photo:req.photoDir})
+        .exec()
+        .then(doc => {
+            console.log(doc);
+            res.status(200).json(Success.message(200,'The profile image has been changed'));
+        })
+        .catch(err =>{
+            res.status(500).json(Error.message(500,'Error changing profile image'));
+        })
+}
 //change user password
 exports.changePassword = function (req,res){
     User.updateOne({_id: req.params.id},{password:hashedPassword})
@@ -81,7 +112,7 @@ exports.list = function (req, res) {
             res.status(500).json(Error.message(500,'Error fetching data',err));
         }
         else {
-            res.status(200).json(result.docs);
+            res.status(200).json(result);
         }
     });
 }
