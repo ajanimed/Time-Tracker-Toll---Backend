@@ -31,6 +31,7 @@ let SupervisorRoute = require('./routes/supervisors');
 let TaskCategoryRoute = require('./routes/taskcategories');
 let TaskRoute = require('./routes/tasks');
 let ScreenShotRoute = require('./routes/screenshots');
+let TimeLogRoute = require('./routes/timelogs');
 app.use(passport.authenticate('jwt', {session: false}),
     userRoute,
     EmployeeRoute,
@@ -38,7 +39,8 @@ app.use(passport.authenticate('jwt', {session: false}),
     SupervisorRoute,
     TaskCategoryRoute,
     TaskRoute,
-    ScreenShotRoute
+    ScreenShotRoute,
+    TimeLogRoute
 );
 
 
