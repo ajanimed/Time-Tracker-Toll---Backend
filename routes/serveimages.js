@@ -8,7 +8,7 @@ let config = require('config');
 router.get('/profiles-photos/:userId/:photoName', function(req,res,next){
     //res.status(200).json({'yo':'yoyo'});
    let options = {
-       root: __dirname+'/profile-photos'+req.params.userId+'/',
+       root: __dirname+'/profile-photos/'+req.params.userId+'/',
        dotfiles: 'deny',
        headers: {
            'x-timestamp': Date.now(),
