@@ -1,7 +1,9 @@
 let express = require('express');
 let router = new express.Router();
 let config = require('config');
-let root = config.get("servingProfileImagesDirectory");
+//let root = config.get("servingProfileImagesDirectory");
+let root = path.dirname(require.main.filename);
+
 //sending profile photos
 router.get('/profiles-photos/:userId/:photoName', function(req,res,next){
     //res.status(200).json({'yo':'yoyo'});
