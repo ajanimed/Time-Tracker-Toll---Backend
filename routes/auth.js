@@ -27,6 +27,7 @@ router.post('/login',(req,res) => {
                 res.send(err);
             }
             const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
+            res.sendFile(__dirname+user.photo);
             return res.json({user, token});
         });
     })
