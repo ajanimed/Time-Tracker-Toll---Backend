@@ -9,6 +9,6 @@
   },
   "uploadDestination": "./screenshots",
   "uploadPhotoProfileDestination":"./img/profiles-photos",
-  "servingProfileImagesDirectory":"D:/Mohamed/Master/PFE/ttt/backend/img/profiles-photos/",
+  "servingProfileImagesDirectory":"D:/Mohamed/Master/PFE/ttt/backend/img/profiles-photos",
   "logDirectory": "./logs/development/app.log"
 }
