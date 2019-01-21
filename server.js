@@ -6,4 +6,4 @@ let app = require('./app');
 let port = serverConfig.port;
 let server = http.createServer(app);
 console.log(config.get("env").green.bold+' enviroment is runnig !'.green);
-server.listen(port, () => console.log(`Time Tracker Tool - Backend listening on port ${port}!`.green.bold));
+server.listen(process.env.PORT || port, () => console.log(`Time Tracker Tool - Backend listening on port ${port}!`.green.bold));

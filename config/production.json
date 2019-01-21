@@ -5,7 +5,7 @@
   },
   "serverConfig": {
     "host": "localhost",
-    "port": 3000
+    "port": 5000
   },
   "uploadDestination": "./screenshots",
   "uploadPhotoProfileDestination":"./img/profiles-photos",
