@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 //adding swagger ui route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
+/*
 //Enable CORS
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -27,7 +27,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")
   res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
   next();
-});
+});*/
 
 //authentification route
 app.use(require('./routes/auth'));
