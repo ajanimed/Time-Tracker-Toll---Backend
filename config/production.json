@@ -9,5 +9,6 @@
   },
   "uploadDestination": "./screenshots",
   "uploadPhotoProfileDestination":"./img/profiles-photos",
+  "servingProfileImagesDirectory":"https://timetrackertoolbackend.herokuapp.com/img/profiles-photos/",
   "logDirectory": "./logs/production/app.log"
 }
