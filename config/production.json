@@ -9,5 +9,5 @@
   },
   "uploadDestination": "./screenshots",
   "uploadPhotoProfileDestination":"./img/profiles-photos",
-  "logDirectory": "./logs/development/app.log"
+  "logDirectory": "./logs/production/app.log"
 }
