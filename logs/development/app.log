@@ -725,3 +725,4 @@
 {"message":"::1 - - [21/Jan/2019:17:10:03 +0000] \"GET /profiles-photos/5c136f28b1827c321c6d08a1/22489751_1716552911689652_922429967662335250_n.jpg HTTP/1.1\" 404 312 \"-\" \"PostmanRuntime/7.6.0\"\n","level":"info"}
 {"message":"::1 - - [21/Jan/2019:17:12:11 +0000] \"GET /profiles-photos/5c136f28b1827c321c6d08a1/22489751_1716552911689652_922429967662335250_n.jpg HTTP/1.1\" 404 312 \"-\" \"PostmanRuntime/7.6.0\"\n","level":"info"}
 {"message":"::1 - - [21/Jan/2019:17:15:28 +0000] \"GET /profiles-photos/5c136f28b1827c321c6d08a1/22489751_1716552911689652_922429967662335250_n.jpg HTTP/1.1\" 200 33195 \"-\" \"PostmanRuntime/7.6.0\"\n","level":"info"}
+{"message":"::1 - - [22/Jan/2019:08:49:04 +0000] \"GET /employees/1/20 HTTP/1.1\" 200 552 \"-\" \"PostmanRuntime/7.6.0\"\n","level":"info"}

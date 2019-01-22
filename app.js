@@ -1,4 +1,5 @@
 let morgan = require('morgan');
+let cors = require('cors');
 let winston = require('./config/winston');
 let express = require("express");
 let bodyParser = require('body-parser');
@@ -19,6 +20,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 //adding swagger ui route
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(cors());
+/*
 
 //Enable CORS
 app.use(function(req, res, next) {
@@ -27,7 +30,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")
   res.header("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
   next();
-});
+});*/
 
 //authentification route
 app.use(require('./routes/auth'));
