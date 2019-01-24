@@ -14,6 +14,7 @@ exports.register = function (req, res) {
     let user = new User({
         _id: mongoose.Types.ObjectId(),
         name: req.body.name,
+        middlename: req.body.middlename,
         surname: req.body.surname,
         tel: req.body.tel,
         email: req.body.email,
