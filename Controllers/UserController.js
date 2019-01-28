@@ -10,7 +10,6 @@ let passwordHash = require('password-hash');
 
 //register one user
 exports.register = function (req, res) {
-    console.log(req.body);
     let hashedPassword = passwordHash.generate(req.body.password);
     let user = new User({
         _id: mongoose.Types.ObjectId(),
