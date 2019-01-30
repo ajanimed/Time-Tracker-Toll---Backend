@@ -18,7 +18,7 @@ router.put('/user/update/photo/:id',upload.single('photo'),UserController.change
 //delete one user by id
 router.delete('/user/delete/:id', UserController.delete);
 
-//verif email
-router.get('/user/verifemail/:email',Verifmail);
+
+router.get('/user/verif/:email', Verifmail);
 
 module.exports = router;
