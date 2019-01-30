@@ -8,7 +8,7 @@ Verifmail = function(req,res,next){
         }
         else{
             if(doc.length!==0){
-                res.status(500).json(Error.message(500,"Email adress already exist"));
+                res.status(200).json(Error.message(200,"Email adress already exist"));
             }
             else{
                 next();
