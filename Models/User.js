@@ -10,7 +10,7 @@ let UserSchema = mongoose.Schema({
     tel:{type:String,required: true},
     email:{type:String,required: true},
     password:{type:String,required: true},
-    photo:{type:String,default:config.get('uploadPhotoProfileDestination')+"/default.png",required: true},
+    photo:{type:String,default:config.get('uploadPhotoProfileDestination')+"/default/default.png",required: true},
     created_at:{type:Date,default: Date.now }
 });
 
