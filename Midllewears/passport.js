@@ -6,6 +6,9 @@ const passportJWT = require("passport-jwt");
 const JWTStrategy   = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 let User = require("../Models/User");
+let Employee = require("../Models/Employee");
+let Administrator = require("../Models/Employee");
+let Supervisor = require("../Models/Supervisor");
 let passwordHash = require('password-hash');
 
 //Defining the local strategy

@@ -1,4 +1,3 @@
-let config = require('config');
 let mongoose = require('mongoose');
 let mongoosePaginate = require('mongoose-paginate-v2');
 
@@ -10,7 +9,7 @@ let UserSchema = mongoose.Schema({
     tel:{type:String,required: true},
     email:{type:String,required: true},
     password:{type:String,required: true},
-    photo:{type:String,default:config.get('uploadPhotoProfileDestination')+"/default/default.png",required: true},
+    photo:{type:String,default:"default/man.jpg",required: true},
     created_at:{type:Date,default: Date.now }
 });
 
