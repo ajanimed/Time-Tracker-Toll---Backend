@@ -35,8 +35,9 @@ router.post('/login', (req,res) => {
                 .then(administrator=>{
                     if(administrator){
                         let role = 'administrator';
+                        let id = administrator._id;
                         res.sendFile(__dirname+user.photo);
-                        return res.json({user, role, token});
+                        return res.json({user, role, id, token});
                     }
                 })
                 .catch(error=>{
@@ -46,8 +47,9 @@ router.post('/login', (req,res) => {
                 .then(employee=>{
                     if(employee){
                         let role = 'employee';
+                        let id = employee._id;
                         res.sendFile(__dirname+user.photo);
-                        return res.json({user, role, token});
+                        return res.json({user, role, id, token});
                     }
                 })
                 .catch(error=>{
@@ -57,8 +59,9 @@ router.post('/login', (req,res) => {
                 .then(supervisor=>{
                     if(supervisor){
                         let role = 'supervisor';
+                        let id = supervisor._id;
                         res.sendFile(__dirname+user.photo);
-                        return res.json({user, role, token});
+                        return res.json({user, role, id, token});
                     }
                 })
                 .catch(error=>{
