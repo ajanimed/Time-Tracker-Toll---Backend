@@ -8,7 +8,10 @@ let EmployeeSchema = mongoose.Schema({
     user:{type:mongoose.Schema.Types.ObjectId,ref:'User',required:true},
     function:{type:String,required:true}
 });
-
+EmployeeSchema.post('find',function(req,res,next){
+    res.status(200).json(req.result);
+    next();
+});
 EmployeeSchema.pre('remove',function(next){
     User.findOne({_id:this.user})
         .exec()
@@ -19,11 +22,9 @@ EmployeeSchema.pre('remove',function(next){
             console.log(err);
         })
     try{
-        console.log(this._id+" this the employee id");
         Task.updateMany({"employee":this._id},
                         {employee:null}
                         );
-        console.log('yoyo');
     }
     catch(err){
         console.log(err);

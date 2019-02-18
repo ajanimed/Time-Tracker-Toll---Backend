@@ -6,7 +6,6 @@ let jwt = require('jsonwebtoken');
 let passport = require('passport');
 require('../Midllewears/passport');
 let Verifmail = require("../Midllewears/verifmail");
-let Verifrole = require("../Midllewears/verifrole");
 let Employee = require("../Models/Employee");
 let Supervisor = require("../Models/Supervisor");
 let Administrator = require("../Models/Administrator");

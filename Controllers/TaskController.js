@@ -14,7 +14,17 @@ exports.list = function (req,res){
         }
     });
 }
-
+//return tasks documents by employee based on page and limit numbers
+exports.listByEmployee = function (req,res){
+    Task.paginate({employee:req.params.employee}, {populate:['category','supervisor','employee'],page: req.params.page, limit: parseInt(req.params.number)}, (err, result) => {
+        if (err) {
+            res.status(500).json(Error.message(500,'Error fetching data',err));
+        }
+        else {
+            res.status(200).json(result);
+        }
+    });
+}
 //add a task to the database
 exports.add = function (req,res){
     let task = new Task({
