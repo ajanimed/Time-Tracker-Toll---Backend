@@ -15,9 +15,9 @@ exports.list = function (req,res){
     });
 }
 
-//find a timelog by id
+//find a timelog by id task
 exports.findById = function (req,res){
-    TimeLog.findOne({_id: req.params.id})
+    TimeLog.findOne({task: req.params.id})
         .populate('task')
         .exec()
         .then(doc => {
@@ -42,19 +42,17 @@ exports.createLog = function(req,res){
             res.status(500).json(Error.message(500,err));
         })
 }
-//add a log to the timelog by id
+//add a log to the timelog by id task
 exports.addLog = function(req,res){
     let Log = req.body;
     let date = new Date();
-    let Time = date.getTime();
-    TimeLog.findOne({_id:req.params.id},function (err,timelog){
+    TimeLog.findOne({task:req.params.id},function (err,timelog){
         console.log(timelog);
        if(err){
            res.status(500).json(Error.message(500,err));
        }
        else{
-
-           timelog.Logs.set(Time.toString(),Log);
+           timelog.Logs.set(date.toString(),Log);
            timelog.save()
                .then(result=>{
                    res.status(200).json(Success.message(200,"Success adding Log"));
