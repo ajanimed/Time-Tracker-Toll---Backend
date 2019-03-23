@@ -15,7 +15,8 @@ app.use(morgan('combined', { stream: winston.stream }));
 //use authentification passport strategy
 app.use(passport.initialize());
 //using body parser
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '10mb', extended: true}));
+
 app.use(bodyParser.urlencoded({extended:true}));
 
 //adding swagger ui route

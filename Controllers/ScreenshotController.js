@@ -5,7 +5,7 @@ let Error = require("../Models/Error");
 
 //return screenshots documents based on page and limit numbers
 exports.list = function (req,res){
-    Screenshot.paginate({}, {populate:'user',page: req.params.page, limit: parseInt(req.params.number)}, (err, result) => {
+    Screenshot.paginate({}, {populate:'task',page: req.params.page, limit: parseInt(req.params.number)}, (err, result) => {
         if (err) {
             res.status(500).json(Error.message(500,'Error fetching data',err));
         }
@@ -18,6 +18,7 @@ exports.list = function (req,res){
 exports.findById = function (req,res){
     Screenshot.findOne({_id: req.params.id})
         .populate('task')
+        .populate('user')
         .exec()
         .then(doc => {
             res.status(200).json(doc);
@@ -43,9 +44,10 @@ exports.findByTask = function (req,res){
 exports.upload = function (req,res){
     let screenshot = new Screenshot({
         _id: mongoose.Types.ObjectId(),
-        name: req.file.originalname,
-        link:req.taskDir+'/'+req.file.originalname,
-        task: req.body.task
+        name: req.body.name,
+        link:req.taskDir+'/'+req.body.name,
+        task: req.body.task,
+        user:req.body.user
     });
     screenshot.save().then(
         result => {

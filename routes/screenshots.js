@@ -3,6 +3,7 @@ let router = new express.Router();
 let ScreenshotController = require("../Controllers/ScreenshotController");
 let upload = require("../config/uploadStrategies/screenshot-upload");
 
+
 //return a screenshots list
 router.get('/screenshots/:page/:number', ScreenshotController.list);
 
@@ -14,8 +15,7 @@ router.get('/screenshot/:id', ScreenshotController.findById);
 
 //upload a screenshot to the server
 router.post('/screenshot/upload/',
-           [
-            upload.single('screenshot'),
+           [upload.upload,
             ScreenshotController.upload]
             );
 
